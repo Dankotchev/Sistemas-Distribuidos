@@ -1,0 +1,39 @@
+Requisição
+
+VALIDE\r\n
+DOCN {numero do documento}\r\n
+DOCT {tipo do documento}
+
+onde DOCT:{DOCT:{
+0 Não especificado
+1 CPF
+2 CNPJ
+}
+
+--------------------------
+Resposta
+PVD/0.1\r\n
+DTVD {data da validação}\r\n
+DOCN {numero do documento}\r\n
+DOCV {resposta da validação}\r\n
+MENS {mensagem da resposta}\r\n
+
+onde
+DOCV:{
+0 Documento inválido
+1 Documento válido
+}
+
+MENS:{
+100: Documento inválido,
+110: Documento válido,
+
+200: Tipo de documento inválido,
+
+300: Requisição inválida
+
+400: Conexcoes máximas atingidas
+
+999: 	
+
+}
