@@ -26,6 +26,7 @@ DOCT {Tipo do Documento}\r\n
 - 0: Não especificado
 - 1: CPF
 - 2: CNPJ
+- 9: Não avaliado, utilizado apenas nas respostas do servidor para o cliente quando por algum motivo o servidor não chegou a avaliar o tipo de documento recebido, como por exemplo nas mensagens 300 (Requisição inválida), 400 (Conexões máximas atingidas) ou 999 (Não especificada).
 
 Todos os campos são caracteres codificados em UTF-8, cada linha é terminada pelos caracteres especiais de *****recuo de carro***** seguido por ******enter.******
 

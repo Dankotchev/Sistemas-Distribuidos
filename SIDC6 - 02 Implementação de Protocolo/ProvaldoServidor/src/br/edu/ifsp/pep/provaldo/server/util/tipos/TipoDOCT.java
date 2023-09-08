@@ -3,7 +3,8 @@ package br.edu.ifsp.pep.provaldo.server.util.tipos;
 public enum TipoDOCT {
     NAO_ESPECIFICADO(0),
     CPF(1),
-    CNPJ(2);
+    CNPJ(2), 
+    NAO_AVALIADO(9);
 
     private final int valor;
 

@@ -1,6 +1,7 @@
 package br.edu.ifsp.pep.provaldo.server;
 
 import br.edu.ifsp.pep.provaldo.server.util.MontadorResposta;
+import br.edu.ifsp.pep.provaldo.server.util.tipos.TipoDOCT;
 import br.edu.ifsp.pep.provaldo.server.util.tipos.TipoDOCV;
 import java.io.*;
 import java.net.*;
@@ -26,7 +27,7 @@ public class ServidorProvaldo {
                 if (clientesSokets.size() >= maxConexoes) {
                     System.out.println(
                             "Número máximo de conexões atingido. Rejeitando conexão de " + clienteSocket.obterEndereço());
-                    String resposta = MontadorResposta.gerarResposta(TipoDOCV.CONX_MAX, "");
+                    String resposta = MontadorResposta.gerarResposta(TipoDOCV.CONX_MAX, "", TipoDOCT.NAO_AVALIADO);
                     clienteSocket.escritor(resposta);
                     clienteSocket.close();
                 } else {

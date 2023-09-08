@@ -27,20 +27,24 @@ public class ClienteHandler implements Runnable {
             System.out.println("Cliente conectado: " + clienteSocket.obterEndereço());
             BufferedReader leitor = clienteSocket.getLeitor();
             String linha;
-            
+
             while ((linha = leitor.readLine()) != null) {
                 if (linha.equals("VALIDE")) {
                     String linhaNumDoc = leitor.readLine();
-                    String linhaTipoDoc = leitor.readLine();
-
-                    TipoDOCT tipoDocumento = ValidadorDocumento.parseTipoDocumento(linhaTipoDoc);
                     String numeroDocumento = ValidadorDocumento.parseNumeroDocumento(linhaNumDoc);
+                    if (numeroDocumento.equalsIgnoreCase("")) {
+                        resposta = MontadorResposta.gerarResposta(TipoDOCV.REQ_INVALIDO, numeroDocumento, TipoDOCT.NAO_AVALIADO);
+                    } else {
 
-                    TipoDOCV resultadoValidacao = ValidadorDocumento.validarDocumento(tipoDocumento, numeroDocumento);
+                        String linhaTipoDoc = leitor.readLine();
+                        TipoDOCT tipoDocumento = ValidadorDocumento.parseTipoDocumento(linhaTipoDoc);
+                        TipoDOCV resultadoValidacao = ValidadorDocumento.validarDocumento(tipoDocumento, numeroDocumento);
 
-                    resposta = MontadorResposta.gerarResposta(resultadoValidacao, numeroDocumento);
-                } else
-                    resposta = MontadorResposta.gerarResposta(TipoDOCV.REQ_INVALIDO, "");
+                        resposta = MontadorResposta.gerarResposta(resultadoValidacao, numeroDocumento, tipoDocumento);
+                    }
+                } else {
+                    resposta = MontadorResposta.gerarResposta(TipoDOCV.REQ_INVALIDO, "", TipoDOCT.NAO_AVALIADO);
+                }
                 clienteSocket.escritor(resposta);
             }
 

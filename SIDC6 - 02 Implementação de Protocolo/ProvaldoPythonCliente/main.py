@@ -6,6 +6,7 @@ def tratar_resposta(resposta):
     # Processar cada linha para extrair informações relevantes
     data_validacao = ""
     numero_documento = ""
+    tipo_documento = ""
     codigo_resultado = ""
 
     for linha in linhas:
@@ -13,6 +14,8 @@ def tratar_resposta(resposta):
             data_validacao = linha.split(' ', 1)[1]
         elif linha.startswith("DOCN"):
             numero_documento = linha.split(' ', 1)[1]
+        elif linha.startswith("DOCT"):
+            tipo_documento = int(linha.split(' ', 1)[1])
         elif linha.startswith("DOCV"):
             codigo_resultado = int(linha.split(' ', 1)[1])
 
@@ -24,10 +27,18 @@ def tratar_resposta(resposta):
         400: "Conexões máximas atingidas"
     }
 
+    documentos = {
+        0: "Não especificado",
+        1: "CPF",
+        2: "CNPJ",
+        9: "Não Avaliado"
+    }
+
     # Imprimir as informações de forma clara
-    print("Data de validação:", data_validacao)
-    print("Número do documento:", numero_documento)
-    print("Resultado da validação:", codigo_resultado, "-", mensagens.get(codigo_resultado, "Código de resultado desconhecido"))
+    print("Data de validação: ", data_validacao)
+    print("Número do documento: ", numero_documento)
+    print("Tipo do Documento: ", documentos.get(tipo_documento))
+    print("Resultado da validação: ", codigo_resultado, "-", mensagens.get(codigo_resultado, "Código de resultado desconhecido"))
 
 
 def main():
@@ -45,6 +56,7 @@ def main():
 
         # Envio da solicitação para o servidor
         s.sendall(b'VALIDE\r\n')
+        #s.sendall(f'DOCT {tipo_documento}\r\n'.encode())
         s.sendall(f'DOCN {numero_documento}\r\n'.encode())
         s.sendall(f'DOCT {tipo_documento}\r\n'.encode())
 
