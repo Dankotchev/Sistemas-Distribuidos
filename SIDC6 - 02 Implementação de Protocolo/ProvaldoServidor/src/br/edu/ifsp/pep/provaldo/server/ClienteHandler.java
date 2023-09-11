@@ -16,10 +16,6 @@ public class ClienteHandler implements Runnable {
         this.clienteSocket = clienteSocket;
     }
 
-    public ClienteHandler(Socket socketCliente) {
-        this.socketCliente = socketCliente;
-    }
-
     @Override
     public void run() {
         String resposta = "";

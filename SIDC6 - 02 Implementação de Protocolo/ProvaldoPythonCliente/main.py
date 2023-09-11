@@ -44,7 +44,7 @@ def tratar_resposta(resposta):
 def main():
     # Endereço do servidor e porta
     servidor_ip = 'localhost'  # IP do servidor
-    servidor_porta = 12345    # Porta do servidor
+    servidor_porta = 1996      # Porta do servidor
 
     # Criação do socket
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:

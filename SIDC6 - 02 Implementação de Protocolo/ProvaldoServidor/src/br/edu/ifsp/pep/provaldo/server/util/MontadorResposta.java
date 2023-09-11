@@ -11,7 +11,7 @@ public class MontadorResposta {
         SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dataAtual = formatoData.format(new Date());
 
-        String resposta = "PVD/0.1\r\n";
+        String resposta = "PROVALDO/0.2\r\n";
         resposta += "DTVD " + dataAtual + "\r\n";
         resposta += "DOCN " + numeroDocumento + "\r\n";
         resposta += "DOCT " + tipoDOCT.getValor() + "\r\n";
