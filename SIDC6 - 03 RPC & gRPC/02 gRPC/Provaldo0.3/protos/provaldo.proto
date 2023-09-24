@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "br.edu.ifsp.pep.provaldo";
+option java_outer_classname = "Provaldo";
+option objc_class_prefix = "PVD";
+
+package provaldo;
+
+// The greeting service definition.
+service Validador {
+  // Sends a greeting
+  rpc Validar (ProvaldoRequest) returns (ProvaldoReply) {}
+}
+
+// The request message containing the user's name.
+message ProvaldoRequest {
+  string docn = 1;
+  int32  doct =2;
+}
+
+// The response message containing the greetings
+message ProvaldoReply {
+  string dtvd = 1;
+  string docn = 2;
+  int32  doct = 3;
+  int32  docv = 4;
+}
