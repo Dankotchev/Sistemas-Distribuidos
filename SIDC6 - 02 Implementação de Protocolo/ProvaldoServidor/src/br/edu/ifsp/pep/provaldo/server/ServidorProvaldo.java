@@ -13,7 +13,7 @@ public class ServidorProvaldo {
     private static Queue<ClienteSocket> clientesSokets = new LinkedList<>();
 
     public static void main(String[] args) {
-        int porta = 12345;
+        int porta = 1996;
         int maxConexoes = 15;
 
         try {
