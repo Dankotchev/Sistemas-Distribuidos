@@ -23,6 +23,41 @@ import provaldo_pb2
 import provaldo_pb2_grpc
 
 
+def valores_doct(doct):
+    if doct == 0:
+        return 'Não especificado'
+    elif doct == 1:
+        return 'CPF'
+    elif doct == 2:
+        return 'CNPJ'
+    elif doct == 9:
+        return 'Não avaliado'
+
+def valores_docv(docv):
+    if docv == 100:
+        return 'Documento inválido'
+    elif docv == 110:
+        return 'Documento válido'
+    elif docv == 200:
+        return 'Tipo Inválido'
+    elif docv == 300:
+        return 'Requisição Inválida'
+    elif docv == 400:
+        return 'Conexões máximas atingidas'
+    elif docv == 999:
+        return 'Não especificado'
+
+
+def apresentar_resposta(resposta):
+    doct = valores_doct(resposta.doct)
+    docv = valores_docv(resposta.docv)
+
+    print("Documento validade em:", resposta.dtvd)
+    print("Número do Documento:", resposta.docn)
+    print("Tipo do Documento:", doct)
+    print("Resposta do servidor:", docv)
+
+
 def run():
     # NOTE(gRPC Python Team): .close() is possible on a channel and should be
     # used in circumstances in which the with statement does not fit the needs
@@ -31,11 +66,7 @@ def run():
     with grpc.insecure_channel("localhost:1996") as channel:
         stub = provaldo_pb2_grpc.ValidadorStub(channel)
         response = stub.Validar(provaldo_pb2.ProvaldoRequest(docn="437.169.308-30", doct=1))
-
-    print("Documento validade em:", response.dtvd)
-    print("Número do Documento:", response.docn)
-    print("Tipo do Documento:", response.doct)
-    print("Resposta da validação:", response.docv)
+        apresentar_resposta(response)
 
 
 if __name__ == "__main__":
