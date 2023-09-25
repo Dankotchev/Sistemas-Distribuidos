@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""The Python implementation of the GRPC helloworld.Validador server."""
+"""The Python implementation of the GRPC Provaldo server."""
 
 from concurrent import futures
 import logging
@@ -24,18 +24,20 @@ import provaldo_pb2_grpc
 
 
 class Validador(provaldo_pb2_grpc.ValidadorServicer):
-    def Validar(self, request, context):
+    def Validar(self, requisicao, context):
+        print("Requisição recebida: ")
+        print(requisicao)
         data_validacao = datetime.datetime.now()
-        if request.doct == 1:
-            docv = valida_cpf(request.docn)
-        elif request.doct == 2:
-            docv = valida_cnpj(request.docn)
+        if requisicao.doct == 1:
+            docv = valida_cpf(requisicao.docn)
+        elif requisicao.doct == 2:
+            docv = valida_cnpj(requisicao.docn)
         else:
             docv = 200
 
         return provaldo_pb2.ProvaldoReply(dtvd=data_validacao.strftime("%Y-%m-%d %H:%M:%S"),
-                                          docn=request.docn,
-                                          doct=request.doct,
+                                          docn=requisicao.docn,
+                                          doct=requisicao.doct,
                                           docv=docv)
 
 
