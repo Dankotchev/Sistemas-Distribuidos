@@ -1,4 +1,4 @@
-#include <mosquitto.h>
+#include "mosquitto.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,7 +14,24 @@ void on_connect(struct mosquitto *mosq, void *userdata, int rc) {
 }
 
 void on_message(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message) {
-    // Processar mensagens recebidas, se necessário
+     // Processar mensagens recebidas, se necessário
+	int temperatura;
+
+	 if (strncmp(message->topic, "controle/maquina", message->topic_len) == 0) {
+        if (strncmp(message->payload, "AUMENTAR", message->payloadlen) == 0)
+            printf("CONTROLE: AUMENTAR TEMPERATURA\n");
+        else if (strncmp(message->payload, "DIMINUIR", message->payloadlen) == 0)
+            printf("CONTROLE: DIMINUIR TEMPERATURA\n");
+
+    } else if (strncmp(message->topic, "temperatura/maquina", message->topic_len) == 0)	{
+		temperatura = atoi((char *)message->payload);
+		if (temperatura > 125){
+			printf("TEMPERATURA: ACIMA DO LIMITE\n");
+		else if (temperatura < 60){
+			printf("TEMPERATURA: ABAIXO DO LIMITE\n");
+		else
+			printf("TEMPERATURA: NO LIMITE\n");
+	}
 }
 
 int main() {

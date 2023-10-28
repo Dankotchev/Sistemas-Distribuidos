@@ -1,11 +1,12 @@
-#include <mosquitto.h>
+#include "mosquitto.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
 struct mosquitto *mosq;
-int temperatura = 70;  // Temperatura inicial
+int temperatura = 100;  // Temperatura inicial
+
 
 void on_connect(struct mosquitto *mosq, void *userdata, int rc) {
     if (rc == 0) {
@@ -20,13 +21,18 @@ void on_connect(struct mosquitto *mosq, void *userdata, int rc) {
 }
 
 void on_message(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message) {
-    // Processa comandos recebidos, se necessário
+    if (strncmp(message->topic, "controle/maquina", message->topic_len) == 0) {
+        if (strncmp(message->payload, "AUMENTAR", message->payloadlen) == 0)
+            temperatura += rand() % 26 - 10;
+        else if (strncmp(message->payload, "DIMINUIR", message->payloadlen) == 0)
+            temperatura -= rand() % 26 - 10;
+    }
 }
 
 int main() {
     mosquitto_lib_init();
 
-    mosq = mosquitto_new("ClienteMQTT", true, NULL);
+    mosq = mosquitto_new("MaquinarioMQTT", true, NULL);
     mosquitto_connect_callback_set(mosq, on_connect);
     mosquitto_message_callback_set(mosq, on_message);
 
@@ -37,18 +43,14 @@ int main() {
 
     while (1) {
         // Simula o aumento e diminuição da temperatura
-        if (temperatura >= 125) {
-            temperatura -= 1;
-        } else {
-            temperatura += 1;
-        }
+		temperatura = rand() % 22 - 10;
 
         // Publica a temperatura no tópico
         char temperatura_str[5];
         sprintf(temperatura_str, "%d", temperatura);
         mosquitto_publish(mosq, NULL, "temperatura/maquina", strlen(temperatura_str), temperatura_str, 0, false);
 
-        sleep(rand() % 2 + 1);
+        sleep(rand() % 2000 + 500);
     }
 
     mosquitto_loop_forever(mosq, -1, 1);
