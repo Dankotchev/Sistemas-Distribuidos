@@ -525,4 +525,8 @@ pyrightconfig.json
 .history
 .ionide
 
+# dependencies
+node_modules/
+bower_components/
+
 # End of https://www.toptal.com/developers/gitignore/api/java,python,pycharm,intellij,netbeans,pycharm+all,visualstudiocode,c
