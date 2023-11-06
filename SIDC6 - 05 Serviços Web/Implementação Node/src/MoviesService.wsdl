@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:tns="http://www.example.com/movies" targetNamespace="http://www.example.com/movies">
+  <message name="GetMoviesByNameRequest">
+    <part name="name" type="xsd:string"/>
+  </message>
+  <message name="GetMoviesByYearRequest">
+    <part name="year" type="xsd:int"/>
+  </message>
+  <message name="GetMoviesByGenreRequest">
+    <part name="genre" type="xsd:string"/>
+  </message>
+  <message name="GetMoviesResponse">
+    <part name="movies" type="xsd:string" maxOccurs="unbounded"/>
+  </message>
+
+  <portType name="MoviesPortType">
+    <operation name="getMoviesByName">
+      <input message="tns:GetMoviesByNameRequest"/>
+      <output message="tns:GetMoviesResponse"/>
+    </operation>
+    <operation name="getMoviesByYear">
+      <input message="tns:GetMoviesByYearRequest"/>
+      <output message="tns:GetMoviesResponse"/>
+    </operation>
+    <operation name="getMoviesByGenre">
+      <input message="tns:GetMoviesByGenreRequest"/>
+      <output message="tns:GetMoviesResponse"/>
+    </operation>
+  </portType>
+
+  <binding name="MoviesBinding" type="tns:MoviesPortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="getMoviesByName">
+      <input>
+        <soap:body use="encoded" namespace="urn:movies" encodingStyle="http://schemas.xmlsoap.org/soap/encoding"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="urn:movies" encodingStyle="http://schemas.xmlsoap.org/soap/encoding"/>
+      </output>
+    </operation>
+    <operation name="getMoviesByYear">
+      <input>
+        <soap:body use="encoded" namespace="urn:movies" encodingStyle="http://schemas.xmlsoap.org/soap/encoding"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="urn:movies" encodingStyle="http://schemas.xmlsoap.org/soap/encoding"/>
+      </output>
+    </operation>
+    <operation name="getMoviesByGenre">
+      <input>
+        <soap:body use="encoded" namespace="urn:movies" encodingStyle="http://schemas.xmlsoap.org/soap/encoding"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="urn:movies" encodingStyle="http://schemas.xmlsoap.org/soap/encoding"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="MoviesService">
+    <port name="MoviesPort" binding="tns:MoviesBinding">
+      <soap:address location="http://localhost:8000/MoviesService"/>
+    </port>
+  </service>
+</definitions>
