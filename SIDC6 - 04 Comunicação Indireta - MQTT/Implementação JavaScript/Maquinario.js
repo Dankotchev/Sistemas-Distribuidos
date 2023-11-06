@@ -16,8 +16,10 @@ client.on('message', (topic, message) => {
   if (topic === 'controle/maquina') {
     if (message.toString() === 'AUMENTAR') {
       temperatura = Math.min(temperatura + Math.floor(Math.random() * 16), 100);
+			console.log(`Comando: AUMENTAR; Temperatura: ${temperatura}`);
     } else if (message.toString() === 'DIMINUIR') {
       temperatura = Math.max(temperatura - Math.floor(Math.random() * 16), 0);
+			console.log(`Comando: DIMINUIR; Temperatura: ${temperatura}`);
     }
     client.publish('temperatura/maquina', temperatura.toString());
   }
